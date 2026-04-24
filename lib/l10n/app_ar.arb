@@ -1,0 +1,115 @@
+{
+  "@@locale": "ar",
+  "appTitle": "أخبار بالس",
+  "appTagline": "ابقَ على اطلاع دائم.",
+  "homeNav": "الرئيسية",
+  "categoriesNav": "الفئات",
+  "bookmarksNav": "المحفوظة",
+  "settingsNav": "الإعدادات",
+  "searchTitle": "اكتشف",
+  "searchSubtitle": "ابحث في آلاف المقالات",
+  "searchHint": "ابحث عن الأخبار أو المواضيع أو المصادر...",
+  "searchCancel": "إلغاء",
+  "recentSearches": "عمليات البحث الأخيرة",
+  "clearAll": "مسح الكل",
+  "clear": "مسح",
+  "breakingNews": "أخبار عاجلة",
+  "breakingNewsSubtitle": "أهم القصص التي تقود النقاش الآن.",
+  "trending": "الأكثر تداولاً",
+  "trendingSubtitle": "قراءات سريعة يتابعها الناس باهتمام.",
+  "topStories": "أهم القصص",
+  "readMore": "اقرأ المزيد",
+  "readFullArticle": "اقرأ المقال كاملاً",
+  "openInBrowser": "افتح في المتصفح",
+  "share": "مشاركة",
+  "copyLink": "نسخ الرابط",
+  "linkCopied": "تم نسخ رابط المقال",
+  "bookmarked": "تم حفظ المقال",
+  "removedBookmark": "تمت إزالة المقال من المحفوظات",
+  "savedTitle": "المحفوظة",
+  "savedEmptyTitle": "لا توجد مقالات محفوظة بعد",
+  "savedEmptyMessage": "اضغط على أيقونة الحفظ في أي مقال للاحتفاظ به لوقت لاحق.",
+  "savedArticlesCount": "{count, plural, =0{لا توجد مقالات محفوظة} =1{مقال محفوظ واحد} =2{مقالان محفوظان} few{{count} مقالات محفوظة} many{{count} مقالاً محفوظاً} other{{count} مقال محفوظ}}",
+  "@savedArticlesCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "clearSavedTitle": "مسح كل المقالات المحفوظة؟",
+  "clearSavedMessage": "سيؤدي هذا إلى حذف كل المقالات المحفوظة نهائياً.",
+  "cancel": "إلغاء",
+  "remove": "إزالة",
+  "tryAgain": "حاول مرة أخرى",
+  "noConnection": "لا يوجد اتصال",
+  "somethingWentWrong": "حدث خطأ ما",
+  "noArticlesFound": "لم يتم العثور على مقالات.",
+  "searchEmptyTitle": "ابدأ الاكتشاف",
+  "searchEmptyMessage": "ابحث عن موضوع أو جهة نشر أو عنوان لتبني نشرتك الخاصة.",
+  "searchNoResults": "لا توجد نتائج لـ \"{query}\"",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "الإشعارات",
+  "notificationsEnabled": "تنبيهات غير مقروءة وعناوين عاجلة",
+  "language": "اللغة",
+  "theme": "المظهر",
+  "themeSystem": "النظام",
+  "themeLight": "فاتح",
+  "themeDark": "داكن",
+  "fontSize": "حجم الخط",
+  "fontSmall": "صغير",
+  "fontMedium": "متوسط",
+  "fontLarge": "كبير",
+  "about": "حول التطبيق",
+  "versionLabel": "الإصدار {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "languageEnglish": "الإنجليزية",
+  "languageArabic": "العربية",
+  "languageUrdu": "الأردية",
+  "languageFrench": "الفرنسية",
+  "languageSpanish": "الإسبانية",
+  "sectionSettingsSubtitle": "خصص تجربة القراءة الخاصة بك",
+  "articleBy": "بقلم {author}",
+  "@articleBy": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "articleUnknownAuthor": "هيئة التحرير",
+  "readTimeMinutes": "{minutes} دقائق قراءة",
+  "@readTimeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "fontSizeAdjust": "حجم القراءة",
+  "notificationBadgeLabel": "تنبيهات غير مقروءة",
+  "categoryTopHeadlines": "أهم العناوين",
+  "categoryPakistan": "باكستان",
+  "categoryInternational": "العالم",
+  "categorySports": "رياضة",
+  "categoryTechnology": "تقنية",
+  "categoryBusiness": "أعمال",
+  "categoryEntertainment": "ترفيه",
+  "searchRecentChip": "حديث",
+  "settingsLanguagePicker": "اختر لغتك",
+  "settingsThemePicker": "اختر المظهر",
+  "settingsFontPicker": "اختر حجم الخط"
+}
+

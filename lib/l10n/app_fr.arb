@@ -1,0 +1,115 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Pulse News",
+  "appTagline": "Restez informé. Toujours.",
+  "homeNav": "Accueil",
+  "categoriesNav": "Catégories",
+  "bookmarksNav": "Enregistrés",
+  "settingsNav": "Paramètres",
+  "searchTitle": "Découvrir",
+  "searchSubtitle": "Recherchez parmi des milliers d’articles",
+  "searchHint": "Rechercher des actualités, sujets, sources...",
+  "searchCancel": "Annuler",
+  "recentSearches": "Recherches récentes",
+  "clearAll": "Tout effacer",
+  "clear": "Effacer",
+  "breakingNews": "Dernière minute",
+  "breakingNewsSubtitle": "Les grands sujets qui font l’actualité en ce moment.",
+  "trending": "Tendance",
+  "trendingSubtitle": "Des lectures rapides que tout le monde suit de près.",
+  "topStories": "À la une",
+  "readMore": "Lire plus",
+  "readFullArticle": "Lire l’article complet",
+  "openInBrowser": "Ouvrir dans le navigateur",
+  "share": "Partager",
+  "copyLink": "Copier le lien",
+  "linkCopied": "Lien de l’article copié",
+  "bookmarked": "Article enregistré",
+  "removedBookmark": "Retiré des enregistrements",
+  "savedTitle": "Enregistrés",
+  "savedEmptyTitle": "Aucun article enregistré",
+  "savedEmptyMessage": "Touchez l’icône de signet sur un article pour le retrouver plus tard.",
+  "savedArticlesCount": "{count, plural, =0{Aucun article enregistré} =1{1 article enregistré} other{{count} articles enregistrés}}",
+  "@savedArticlesCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "clearSavedTitle": "Effacer tous les articles enregistrés ?",
+  "clearSavedMessage": "Cela supprimera définitivement tous les articles enregistrés.",
+  "cancel": "Annuler",
+  "remove": "Supprimer",
+  "tryAgain": "Réessayer",
+  "noConnection": "Pas de connexion",
+  "somethingWentWrong": "Une erreur s’est produite",
+  "noArticlesFound": "Aucun article trouvé.",
+  "searchEmptyTitle": "Commencez à explorer",
+  "searchEmptyMessage": "Recherchez un sujet, une publication ou un titre pour créer votre briefing.",
+  "searchNoResults": "Aucun résultat pour « {query} »",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "Notifications",
+  "notificationsEnabled": "Alertes non lues et infos de dernière minute",
+  "language": "Langue",
+  "theme": "Thème",
+  "themeSystem": "Système",
+  "themeLight": "Clair",
+  "themeDark": "Sombre",
+  "fontSize": "Taille du texte",
+  "fontSmall": "Petit",
+  "fontMedium": "Moyen",
+  "fontLarge": "Grand",
+  "about": "À propos",
+  "versionLabel": "Version {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "languageEnglish": "Anglais",
+  "languageArabic": "Arabe",
+  "languageUrdu": "Ourdou",
+  "languageFrench": "Français",
+  "languageSpanish": "Espagnol",
+  "sectionSettingsSubtitle": "Personnalisez votre expérience de lecture",
+  "articleBy": "Par {author}",
+  "@articleBy": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "articleUnknownAuthor": "Rédaction",
+  "readTimeMinutes": "{minutes} min de lecture",
+  "@readTimeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "fontSizeAdjust": "Taille de lecture",
+  "notificationBadgeLabel": "Alertes non lues",
+  "categoryTopHeadlines": "À la une",
+  "categoryPakistan": "Pakistan",
+  "categoryInternational": "Monde",
+  "categorySports": "Sport",
+  "categoryTechnology": "Technologie",
+  "categoryBusiness": "Économie",
+  "categoryEntertainment": "Divertissement",
+  "searchRecentChip": "Récent",
+  "settingsLanguagePicker": "Choisissez votre langue",
+  "settingsThemePicker": "Choisissez votre thème",
+  "settingsFontPicker": "Choisissez votre taille de texte"
+}
+

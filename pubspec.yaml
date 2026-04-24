@@ -1,0 +1,58 @@
+name: pulse_news
+description: A premium Flutter news app with real-time news, dark mode, bookmarks, and clean architecture.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  riverpod: ^2.5.1
+  flutter_riverpod: ^2.5.1
+
+  http: ^1.2.1
+  dio: ^5.4.3+1
+
+  shared_preferences: ^2.2.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+  flutter_animate: ^4.5.0
+  google_fonts: ^6.1.0
+  url_launcher: ^6.3.0
+  timeago: ^3.6.1
+  flutter_staggered_animations: ^1.1.1
+
+  cupertino_icons: ^1.0.6
+  iconsax: ^0.0.8
+  intl: 0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.9
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/images/app_icon.png
+  min_sdk_android: 21
+  remove_alpha_ios: true
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/lottie/

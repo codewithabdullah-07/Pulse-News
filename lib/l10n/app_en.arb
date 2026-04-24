@@ -1,0 +1,115 @@
+{
+  "@@locale": "en",
+  "appTitle": "Pulse News",
+  "appTagline": "Stay informed. Always.",
+  "homeNav": "Home",
+  "categoriesNav": "Categories",
+  "bookmarksNav": "Saved",
+  "settingsNav": "Settings",
+  "searchTitle": "Discover",
+  "searchSubtitle": "Search thousands of articles",
+  "searchHint": "Search news, topics, sources...",
+  "searchCancel": "Cancel",
+  "recentSearches": "Recent searches",
+  "clearAll": "Clear all",
+  "clear": "Clear",
+  "breakingNews": "Breaking News",
+  "breakingNewsSubtitle": "Major stories moving the conversation right now.",
+  "trending": "Trending",
+  "trendingSubtitle": "Fast reads people are following closely.",
+  "topStories": "Top Stories",
+  "readMore": "Read more",
+  "readFullArticle": "Read Full Article",
+  "openInBrowser": "Open in Browser",
+  "share": "Share",
+  "copyLink": "Copy link",
+  "linkCopied": "Article link copied",
+  "bookmarked": "Article saved",
+  "removedBookmark": "Removed from saved",
+  "savedTitle": "Saved",
+  "savedEmptyTitle": "No saved articles yet",
+  "savedEmptyMessage": "Tap the bookmark icon on any article to save it for later.",
+  "savedArticlesCount": "{count, plural, =0{No saved articles} =1{1 saved article} other{{count} saved articles}}",
+  "@savedArticlesCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "clearSavedTitle": "Clear all saved articles?",
+  "clearSavedMessage": "This will permanently remove all saved articles.",
+  "cancel": "Cancel",
+  "remove": "Remove",
+  "tryAgain": "Try Again",
+  "noConnection": "No Connection",
+  "somethingWentWrong": "Something went wrong",
+  "noArticlesFound": "No articles found.",
+  "searchEmptyTitle": "Start exploring",
+  "searchEmptyMessage": "Search for a topic, publication, or headline to build your own briefing.",
+  "searchNoResults": "No results for \"{query}\"",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "Notifications",
+  "notificationsEnabled": "Unread alerts and breaking headlines",
+  "language": "Language",
+  "theme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "fontSize": "Font Size",
+  "fontSmall": "Small",
+  "fontMedium": "Medium",
+  "fontLarge": "Large",
+  "about": "About",
+  "versionLabel": "Version {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "languageEnglish": "English",
+  "languageArabic": "Arabic",
+  "languageUrdu": "Urdu",
+  "languageFrench": "French",
+  "languageSpanish": "Spanish",
+  "sectionSettingsSubtitle": "Personalize the reading experience",
+  "articleBy": "By {author}",
+  "@articleBy": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "articleUnknownAuthor": "Editorial Desk",
+  "readTimeMinutes": "{minutes} min read",
+  "@readTimeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "fontSizeAdjust": "Reading size",
+  "notificationBadgeLabel": "Unread alerts",
+  "categoryTopHeadlines": "Top Headlines",
+  "categoryPakistan": "Pakistan",
+  "categoryInternational": "Global",
+  "categorySports": "Sports",
+  "categoryTechnology": "Technology",
+  "categoryBusiness": "Business",
+  "categoryEntertainment": "Entertainment",
+  "searchRecentChip": "Recent",
+  "settingsLanguagePicker": "Choose your language",
+  "settingsThemePicker": "Choose your theme",
+  "settingsFontPicker": "Choose your font size"
+}
+

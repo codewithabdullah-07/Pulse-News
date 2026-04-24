@@ -1,0 +1,115 @@
+{
+  "@@locale": "es",
+  "appTitle": "Pulse News",
+  "appTagline": "Mantente informado. Siempre.",
+  "homeNav": "Inicio",
+  "categoriesNav": "Categorías",
+  "bookmarksNav": "Guardados",
+  "settingsNav": "Ajustes",
+  "searchTitle": "Descubrir",
+  "searchSubtitle": "Busca entre miles de artículos",
+  "searchHint": "Buscar noticias, temas o fuentes...",
+  "searchCancel": "Cancelar",
+  "recentSearches": "Búsquedas recientes",
+  "clearAll": "Borrar todo",
+  "clear": "Borrar",
+  "breakingNews": "Última hora",
+  "breakingNewsSubtitle": "Las historias que están marcando la conversación ahora.",
+  "trending": "Tendencias",
+  "trendingSubtitle": "Lecturas rápidas que todos siguen de cerca.",
+  "topStories": "Titulares",
+  "readMore": "Leer más",
+  "readFullArticle": "Leer artículo completo",
+  "openInBrowser": "Abrir en el navegador",
+  "share": "Compartir",
+  "copyLink": "Copiar enlace",
+  "linkCopied": "Enlace del artículo copiado",
+  "bookmarked": "Artículo guardado",
+  "removedBookmark": "Eliminado de guardados",
+  "savedTitle": "Guardados",
+  "savedEmptyTitle": "Aún no hay artículos guardados",
+  "savedEmptyMessage": "Toca el icono de marcador en cualquier artículo para guardarlo y leerlo después.",
+  "savedArticlesCount": "{count, plural, =0{No hay artículos guardados} =1{1 artículo guardado} other{{count} artículos guardados}}",
+  "@savedArticlesCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "clearSavedTitle": "¿Borrar todos los artículos guardados?",
+  "clearSavedMessage": "Esto eliminará permanentemente todos los artículos guardados.",
+  "cancel": "Cancelar",
+  "remove": "Eliminar",
+  "tryAgain": "Intentar de nuevo",
+  "noConnection": "Sin conexión",
+  "somethingWentWrong": "Algo salió mal",
+  "noArticlesFound": "No se encontraron artículos.",
+  "searchEmptyTitle": "Empieza a explorar",
+  "searchEmptyMessage": "Busca un tema, publicación o titular para crear tu propio resumen.",
+  "searchNoResults": "No hay resultados para \"{query}\"",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "Notificaciones",
+  "notificationsEnabled": "Alertas no leídas y noticias de última hora",
+  "language": "Idioma",
+  "theme": "Tema",
+  "themeSystem": "Sistema",
+  "themeLight": "Claro",
+  "themeDark": "Oscuro",
+  "fontSize": "Tamaño de fuente",
+  "fontSmall": "Pequeño",
+  "fontMedium": "Mediano",
+  "fontLarge": "Grande",
+  "about": "Acerca de",
+  "versionLabel": "Versión {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "languageEnglish": "Inglés",
+  "languageArabic": "Árabe",
+  "languageUrdu": "Urdu",
+  "languageFrench": "Francés",
+  "languageSpanish": "Español",
+  "sectionSettingsSubtitle": "Personaliza tu experiencia de lectura",
+  "articleBy": "Por {author}",
+  "@articleBy": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "articleUnknownAuthor": "Redacción",
+  "readTimeMinutes": "{minutes} min de lectura",
+  "@readTimeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "fontSizeAdjust": "Tamaño de lectura",
+  "notificationBadgeLabel": "Alertas no leídas",
+  "categoryTopHeadlines": "Titulares",
+  "categoryPakistan": "Pakistán",
+  "categoryInternational": "Global",
+  "categorySports": "Deportes",
+  "categoryTechnology": "Tecnología",
+  "categoryBusiness": "Negocios",
+  "categoryEntertainment": "Entretenimiento",
+  "searchRecentChip": "Reciente",
+  "settingsLanguagePicker": "Elige tu idioma",
+  "settingsThemePicker": "Elige tu tema",
+  "settingsFontPicker": "Elige tu tamaño de fuente"
+}
+

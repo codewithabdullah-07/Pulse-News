@@ -1,0 +1,115 @@
+{
+  "@@locale": "ur",
+  "appTitle": "پلس نیوز",
+  "appTagline": "ہمیشہ باخبر رہیں۔",
+  "homeNav": "ہوم",
+  "categoriesNav": "زمرے",
+  "bookmarksNav": "محفوظ",
+  "settingsNav": "سیٹنگز",
+  "searchTitle": "دریافت",
+  "searchSubtitle": "ہزاروں مضامین میں تلاش کریں",
+  "searchHint": "خبریں، موضوعات یا ذرائع تلاش کریں...",
+  "searchCancel": "منسوخ",
+  "recentSearches": "حالیہ تلاشیں",
+  "clearAll": "سب صاف کریں",
+  "clear": "صاف کریں",
+  "breakingNews": "بریکنگ نیوز",
+  "breakingNewsSubtitle": "اہم خبریں جو اس وقت گفتگو کا رخ طے کر رہی ہیں۔",
+  "trending": "ٹرینڈنگ",
+  "trendingSubtitle": "مختصر خبریں جن پر سب کی نظر ہے۔",
+  "topStories": "اہم خبریں",
+  "readMore": "مزید پڑھیں",
+  "readFullArticle": "مکمل مضمون پڑھیں",
+  "openInBrowser": "براؤزر میں کھولیں",
+  "share": "شیئر",
+  "copyLink": "لنک کاپی کریں",
+  "linkCopied": "مضمون کا لنک کاپی ہو گیا",
+  "bookmarked": "مضمون محفوظ ہو گیا",
+  "removedBookmark": "محفوظ شدہ سے ہٹا دیا گیا",
+  "savedTitle": "محفوظ",
+  "savedEmptyTitle": "ابھی تک کوئی مضمون محفوظ نہیں",
+  "savedEmptyMessage": "کسی بھی مضمون پر بک مارک آئیکن دبائیں اور بعد میں پڑھنے کے لیے محفوظ کریں۔",
+  "savedArticlesCount": "{count, plural, =0{کوئی محفوظ مضمون نہیں} =1{1 محفوظ مضمون} other{{count} محفوظ مضامین}}",
+  "@savedArticlesCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "clearSavedTitle": "تمام محفوظ مضامین صاف کریں؟",
+  "clearSavedMessage": "اس سے تمام محفوظ مضامین مستقل طور پر حذف ہو جائیں گے۔",
+  "cancel": "منسوخ",
+  "remove": "ہٹائیں",
+  "tryAgain": "دوبارہ کوشش کریں",
+  "noConnection": "کنکشن موجود نہیں",
+  "somethingWentWrong": "کچھ غلط ہو گیا",
+  "noArticlesFound": "کوئی مضمون نہیں ملا۔",
+  "searchEmptyTitle": "تلاش شروع کریں",
+  "searchEmptyMessage": "اپنی ذاتی بریفنگ بنانے کے لیے موضوع، اشاعت یا ہیڈ لائن تلاش کریں۔",
+  "searchNoResults": "\"{query}\" کے لیے کوئی نتیجہ نہیں ملا",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "اطلاعات",
+  "notificationsEnabled": "غیر پڑھی گئی الرٹس اور بریکنگ ہیڈ لائنز",
+  "language": "زبان",
+  "theme": "تھیم",
+  "themeSystem": "سسٹم",
+  "themeLight": "روشن",
+  "themeDark": "گہرا",
+  "fontSize": "فونٹ سائز",
+  "fontSmall": "چھوٹا",
+  "fontMedium": "درمیانہ",
+  "fontLarge": "بڑا",
+  "about": "متعلق",
+  "versionLabel": "ورژن {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "languageEnglish": "انگریزی",
+  "languageArabic": "عربی",
+  "languageUrdu": "اردو",
+  "languageFrench": "فرانسیسی",
+  "languageSpanish": "ہسپانوی",
+  "sectionSettingsSubtitle": "اپنے مطالعے کے تجربے کو ذاتی بنائیں",
+  "articleBy": "از {author}",
+  "@articleBy": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "articleUnknownAuthor": "ادارتی ڈیسک",
+  "readTimeMinutes": "{minutes} منٹ مطالعہ",
+  "@readTimeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "fontSizeAdjust": "مطالعے کا سائز",
+  "notificationBadgeLabel": "غیر پڑھی گئی اطلاعات",
+  "categoryTopHeadlines": "اہم سرخیاں",
+  "categoryPakistan": "پاکستان",
+  "categoryInternational": "عالمی",
+  "categorySports": "کھیل",
+  "categoryTechnology": "ٹیکنالوجی",
+  "categoryBusiness": "کاروبار",
+  "categoryEntertainment": "تفریح",
+  "searchRecentChip": "حالیہ",
+  "settingsLanguagePicker": "اپنی زبان منتخب کریں",
+  "settingsThemePicker": "اپنی تھیم منتخب کریں",
+  "settingsFontPicker": "اپنا فونٹ سائز منتخب کریں"
+}
+
