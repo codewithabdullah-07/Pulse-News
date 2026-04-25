@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations_ext.dart';
@@ -112,7 +113,7 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
                         const Spacer(),
                         _CircleAction(
                           icon: Icons.share_rounded,
-                          onTap: () => _copyLink(article.url),
+                          onTap: () => _showShareOptions(article),
                         ),
                       ],
                     ),
@@ -228,7 +229,7 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
                         _PillAction(
                           icon: Icons.share_rounded,
                           label: l10n.share,
-                          onTap: () => _copyLink(article.url),
+                          onTap: () => _showShareOptions(article),
                         ),
                         _PillAction(
                           icon: isBookmarked
@@ -307,6 +308,68 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
     }
   }
 
+  Future<void> _showShareOptions(ArticleModel article) async {
+    final url = article.url;
+    if (url == null || !mounted) {
+      return;
+    }
+
+    final l10n = context.l10n;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      builder: (sheetContext) {
+        return SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 8, 18, 18),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _ShareSheetAction(
+                  icon: Icons.share_rounded,
+                  label: l10n.share,
+                  onTap: () async {
+                    Navigator.of(sheetContext).pop();
+                    await _shareArticle(article);
+                  },
+                ),
+                const SizedBox(height: 10),
+                _ShareSheetAction(
+                  icon: Icons.link_rounded,
+                  label: l10n.copyLink,
+                  onTap: () async {
+                    Navigator.of(sheetContext).pop();
+                    await _copyLink(url);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _shareArticle(ArticleModel article) async {
+    final url = article.url;
+    if (url == null || url.isEmpty || !mounted) {
+      return;
+    }
+
+    final shareText = [
+      if ((article.title?.trim().isNotEmpty ?? false)) article.title!.trim(),
+      url,
+    ].join('\n\n');
+
+    await Share.share(
+      shareText,
+      subject: article.title,
+    );
+  }
+
   Future<void> _copyLink(String? url) async {
     if (url == null || !mounted) return;
     final messenger = ScaffoldMessenger.of(context);
@@ -318,6 +381,40 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
 
     messenger.showSnackBar(
       SnackBar(content: Text(copiedMessage)),
+    );
+  }
+}
+
+class _ShareSheetAction extends StatelessWidget {
+  const _ShareSheetAction({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: onTap,
+        icon: Icon(icon),
+        label: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(label),
+        ),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          alignment: AlignmentDirectional.centerStart,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -27,6 +27,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_animate: ^4.5.0
   google_fonts: ^6.1.0
+  share_plus: ^10.1.4
   url_launcher: ^6.3.0
   timeago: ^3.6.1
   flutter_staggered_animations: ^1.1.1
