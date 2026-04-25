@@ -17,6 +17,7 @@ dependencies:
 
   http: ^1.2.1
   dio: ^5.4.3+1
+  flutter_dotenv: ^5.2.1
 
   shared_preferences: ^2.2.3
   hive: ^2.2.3
@@ -54,5 +55,6 @@ flutter:
   generate: true
 
   assets:
+    - .env
     - assets/images/
     - assets/lottie/

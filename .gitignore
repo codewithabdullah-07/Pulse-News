@@ -53,3 +53,4 @@ lib/generated_plugin_registrant.dart
 # Misc
 *.DS_Store
 coverage/
+.env

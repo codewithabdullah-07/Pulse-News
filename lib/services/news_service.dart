@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../models/article_model.dart';
 import '../models/category_model.dart';
@@ -15,7 +16,6 @@ class NewsServiceException implements Exception {
 
 class NewsService {
   static const String _baseUrl = 'https://newsapi.org/v2';
-  static const String _apiKey = 'b85127eeaf034680aad281985ce951bc';
   static const int _pageSize = 20;
   static const int _timeoutSeconds = 15;
   static const int _maxImageValidationAttempts = 3;
@@ -23,12 +23,13 @@ class NewsService {
   late final Dio _dio;
 
   NewsService() {
+    final apiKey = dotenv.env['NEWS_API_KEY']?.trim() ?? '';
     _dio = Dio(
       BaseOptions(
         baseUrl: _baseUrl,
         connectTimeout: const Duration(seconds: _timeoutSeconds),
         receiveTimeout: const Duration(seconds: _timeoutSeconds),
-        queryParameters: {'apiKey': _apiKey},
+        queryParameters: {'apiKey': apiKey},
       ),
     );
 
@@ -39,6 +40,12 @@ class NewsService {
         },
       ),
     );
+
+    if (apiKey.isEmpty) {
+      throw const NewsServiceException(
+        'Missing NEWS_API_KEY in .env file.',
+      );
+    }
   }
 
   Future<List<ArticleModel>> fetchByCategory({
