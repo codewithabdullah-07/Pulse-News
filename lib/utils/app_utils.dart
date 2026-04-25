@@ -1,55 +1,31 @@
-// lib/utils/app_utils.dart
-// Shared utility functions, constants, and extensions for Pulse News.
 
 import 'package:flutter/material.dart';
-
-// ─── App Constants ────────────────────────────────────────────────────────────
 
 class AppConstants {
   AppConstants._();
 
   static const String appName = 'Pulse News';
   static const String newsApiBaseUrl = 'https://newsapi.org/v2';
-
-  // Hive box names
   static const String bookmarksBox = 'bookmarks';
   static const String prefsBox = 'prefs';
-
-  // SharedPrefs keys
   static const String darkModeKey = 'isDarkMode';
-
-  // Pagination
   static const int pageSize = 20;
-
-  // Animation durations
   static const Duration shortAnim = Duration(milliseconds: 200);
   static const Duration mediumAnim = Duration(milliseconds: 350);
   static const Duration longAnim = Duration(milliseconds: 500);
-
-  // Default image placeholder (fallback for broken images)
   static const String placeholderImageUrl =
       'https://via.placeholder.com/400x200?text=Pulse+News';
 }
 
-// ─── String Extensions ────────────────────────────────────────────────────────
-
 extension StringExtension on String {
-  /// Capitalize first letter
   String get capitalized =>
       isEmpty ? this : '${this[0].toUpperCase()}${substring(1)}';
-
-  /// Truncate with ellipsis
   String truncate(int maxLength) =>
       length > maxLength ? '${substring(0, maxLength)}...' : this;
-
-  /// Check if string is a valid URL
   bool get isValidUrl => startsWith('http://') || startsWith('https://');
 }
 
-// ─── DateTime Extensions ──────────────────────────────────────────────────────
-
 extension DateTimeExtension on DateTime {
-  /// Returns "Today", "Yesterday", or formatted date
   String get friendlyDate {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -80,8 +56,6 @@ extension DateTimeExtension on DateTime {
     return months[m];
   }
 }
-
-// ─── Context Extensions ───────────────────────────────────────────────────────
 
 extension ContextExtension on BuildContext {
   double get screenWidth => MediaQuery.of(this).size.width;

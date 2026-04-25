@@ -1,6 +1,3 @@
-// lib/models/article_model.dart
-// Core data model for a news article
-// Annotated for Hive local storage (bookmarks)
 
 import 'package:hive/hive.dart';
 
@@ -42,8 +39,6 @@ class ArticleModel extends HiveObject {
     this.source,
     this.author,
   });
-
-  /// Factory: build from raw API JSON map
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
     return ArticleModel(
       title: json['title'] as String?,
@@ -69,15 +64,11 @@ class ArticleModel extends HiveObject {
         'source': source?.toJson(),
         'author': author,
       };
-
-  /// Clean content by removing the NewsAPI "[+N chars]" truncation suffix
   String get cleanContent {
     if (content == null) return description ?? 'No content available.';
     final idx = content!.lastIndexOf('[+');
     return idx != -1 ? content!.substring(0, idx).trim() : content!;
   }
-
-  /// Returns true if the article has a valid image URL
   bool get hasImage =>
       urlToImage != null &&
       urlToImage!.isNotEmpty &&
@@ -102,8 +93,6 @@ class ArticleModel extends HiveObject {
   @override
   int get hashCode => url.hashCode;
 }
-
-// ─── Source sub-model ─────────────────────────────────────────────────────────
 
 @HiveType(typeId: 1)
 class SourceModel {

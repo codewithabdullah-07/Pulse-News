@@ -1,5 +1,3 @@
-// lib/models/category_model.dart
-// Defines news categories with display labels, API parameters, and icons
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -33,8 +31,6 @@ extension NewsCategoryExtension on NewsCategory {
         return 'Entertainment';
     }
   }
-
-  /// Category value sent to NewsAPI (category param)
   String? get apiCategory {
     switch (this) {
       case NewsCategory.topHeadlines:
@@ -53,8 +49,6 @@ extension NewsCategoryExtension on NewsCategory {
         return 'entertainment';
     }
   }
-
-  /// Country code for NewsAPI
   String get country {
     switch (this) {
       case NewsCategory.pakistan:

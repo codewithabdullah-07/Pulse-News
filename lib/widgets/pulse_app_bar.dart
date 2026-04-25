@@ -1,10 +1,7 @@
-// MODIFIED BY CODEX — UI UPGRADE
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
-// import '../l10n/app_localizations_ext.dart';
 import '../theme/app_settings_controller.dart';
 import '../theme/app_theme.dart';
 

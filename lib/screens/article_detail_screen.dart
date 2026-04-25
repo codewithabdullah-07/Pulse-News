@@ -1,5 +1,3 @@
-// MODIFIED BY CODEX — UI UPGRADE (FIXED VERSION)
-
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -41,8 +39,11 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
     final article = widget.article;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final isBookmarked =
-        ref.watch(bookmarkProvider.notifier).isBookmarked(article.url);
+    final isBookmarked = ref.watch(
+      bookmarkProvider.select(
+        (bookmarks) => bookmarks.any((saved) => saved.url == article.url),
+      ),
+    );
 
     final l10n = context.l10n;
 
