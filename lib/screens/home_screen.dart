@@ -1,5 +1,6 @@
 // MODIFIED BY CODEX — UI UPGRADE
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../l10n/app_localizations_ext.dart';
 import '../models/article_model.dart';
 import '../providers/app_providers.dart';
+import '../services/notification_service.dart';
 import '../theme/app_settings_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/category_chips.dart';
@@ -35,11 +37,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _currentNavIndex = 0;
   Timer? _autoRefreshTimer;
   final _HomeLifecycleObserver _lifecycleObserver = _HomeLifecycleObserver();
+  ProviderSubscription<NotificationsState>? _notificationSubscription;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(_lifecycleObserver);
+    _notificationSubscription = ref.listenManual<NotificationsState>(
+      notificationsProvider,
+      (previous, next) async {
+        if (!mounted) {
+          return;
+        }
+
+        final settings = AppSettingsScope.read(context);
+        if (!settings.notificationsEnabled || next.unreadArticles.isEmpty) {
+          return;
+        }
+
+        final previousCount = previous?.unreadArticles.length ?? 0;
+        final nextCount = next.unreadArticles.length;
+        if (nextCount <= previousCount) {
+          return;
+        }
+
+        final selectedArticle = next.unreadArticles[
+            Random().nextInt(next.unreadArticles.length)];
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(
+                selectedArticle.title ?? 'New Pulse News article available',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          );
+
+        await NotificationService.instance.showBreakingNews(selectedArticle);
+      },
+    );
     Future.microtask(() => _refreshAppData());
     _startAutoRefresh();
   }
@@ -54,19 +92,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(_lifecycleObserver);
+    _notificationSubscription?.close();
     _autoRefreshTimer?.cancel();
     super.dispose();
   }
 
   Future<void> _refreshAppData({bool silent = true}) async {
     final selectedCategory = ref.read(selectedCategoryProvider);
-    await Future.wait([
-      ref.read(newsFeedProvider.notifier).fetchNews(
-            category: selectedCategory,
-            silent: silent,
-          ),
-      ref.read(notificationsProvider.notifier).refresh(),
-    ]);
+    final settings = AppSettingsScope.read(context);
+    await ref.read(newsFeedProvider.notifier).fetchNews(
+          category: selectedCategory,
+          silent: silent,
+        );
+
+    if (!settings.notificationsEnabled) {
+      return;
+    }
+
+    await ref.read(notificationsProvider.notifier).refresh();
+    await NotificationService.instance.scheduleDailyDigests(
+      ref.read(notificationsProvider).inboxArticles,
+    );
   }
 
   void _startAutoRefresh() {
@@ -125,7 +171,6 @@ class _NewsFeedTabState extends ConsumerState<_NewsFeedTab> {
     super.initState();
     _scrollController = ScrollController()..addListener(_handleScroll);
     _pageController = PageController(viewportFraction: 0.92);
-    ref.read(categoryWatcherProvider);
   }
 
   @override
@@ -166,9 +211,12 @@ class _NewsFeedTabState extends ConsumerState<_NewsFeedTab> {
   Widget build(BuildContext context) {
     final feedState = ref.watch(newsFeedProvider);
     final selectedCategory = ref.watch(selectedCategoryProvider);
-    final unreadCount = ref.watch(
-      notificationsProvider.select((state) => state.unreadArticles.length),
-    );
+    final notificationsEnabled = AppSettingsScope.of(context).notificationsEnabled;
+    final unreadCount = notificationsEnabled
+        ? ref.watch(
+            notificationsProvider.select((state) => state.unreadArticles.length),
+          )
+        : 0;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final disableAnimations =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
@@ -193,6 +241,9 @@ class _NewsFeedTabState extends ConsumerState<_NewsFeedTab> {
                 _slideRoute(const SearchScreen()),
               ),
               onNotificationTap: () {
+                if (!notificationsEnabled) {
+                  return;
+                }
                 final articles =
                     ref.read(notificationsProvider.notifier).openInbox();
                 Navigator.of(context).push(

@@ -8,12 +8,15 @@ import 'package:pulse_news/l10n/app_localizations.dart';
 
 import 'models/article_model.dart';
 import 'screens/splash_screen.dart';
+import 'services/notification_service.dart';
+import 'services/supabase_bootstrap.dart';
 import 'theme/app_settings_controller.dart';
 import 'theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
+  await SupabaseBootstrap.initialize();
 
   await Hive.initFlutter();
   if (!Hive.isAdapterRegistered(0)) {
@@ -32,6 +35,10 @@ Future<void> main() async {
   ]);
 
   final settings = await AppSettingsController.load();
+  await NotificationService.instance.initialize();
+  await NotificationService.instance.ensurePermissionIfNeeded(
+    enabled: settings.notificationsEnabled,
+  );
 
   runApp(
     ProviderScope(

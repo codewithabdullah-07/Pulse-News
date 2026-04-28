@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations_ext.dart';
+import '../providers/app_providers.dart';
+import '../services/notification_service.dart';
 import '../theme/app_settings_controller.dart';
 import '../widgets/pulse_app_bar.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   static const _version = '1.0.0+1';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final settings = AppSettingsScope.of(context);
     final l10n = context.l10n;
 
@@ -53,7 +56,37 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 SwitchListTile.adaptive(
                   value: settings.notificationsEnabled,
-                  onChanged: (value) => settings.setNotificationsEnabled(value),
+                  onChanged: (value) async {
+                    final messenger = ScaffoldMessenger.of(context);
+
+                    if (!value) {
+                      await settings.setNotificationsEnabled(false);
+                      ref.read(notificationsProvider.notifier).clearVisible();
+                      await NotificationService.instance.cancelAll();
+                      return;
+                    }
+
+                    final granted =
+                        await NotificationService.instance.requestPermission();
+                    if (!granted) {
+                      await settings.setNotificationsEnabled(false);
+                      if (context.mounted) {
+                        messenger.showSnackBar(
+                          const SnackBar(
+                            content: Text('Notification permission is required.'),
+                          ),
+                        );
+                      }
+                      return;
+                    }
+
+                    await settings.setNotificationsEnabled(true);
+                    final notifier = ref.read(notificationsProvider.notifier);
+                    await notifier.refresh();
+                    final state = ref.read(notificationsProvider);
+                    await NotificationService.instance
+                        .scheduleDailyDigests(state.inboxArticles);
+                  },
                   secondary: const Icon(Icons.notifications_active_outlined),
                   title: Text(l10n.notifications),
                   subtitle: Text(l10n.notificationsEnabled),

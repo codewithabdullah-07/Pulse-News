@@ -64,6 +64,35 @@ class ArticleModel extends HiveObject {
         'source': source?.toJson(),
         'author': author,
       };
+
+  Map<String, dynamic> toBookmarkPayload() => {
+        'article_url': url,
+        'title': title,
+        'description': description,
+        'image_url': urlToImage,
+        'content': content,
+        'published_at': publishedAt,
+        'source_id': source?.id,
+        'source_name': source?.name,
+        'author': author,
+      };
+
+  factory ArticleModel.fromBookmarkPayload(Map<String, dynamic> json) {
+    return ArticleModel(
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      urlToImage: json['image_url'] as String?,
+      url: json['article_url'] as String?,
+      content: json['content'] as String?,
+      publishedAt: json['published_at'] as String?,
+      source: SourceModel(
+        id: json['source_id'] as String?,
+        name: json['source_name'] as String?,
+      ),
+      author: json['author'] as String?,
+    );
+  }
+
   String get cleanContent {
     if (content == null) return description ?? 'No content available.';
     final idx = content!.lastIndexOf('[+');

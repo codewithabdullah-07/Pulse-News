@@ -29,10 +29,7 @@ class CategoryChips extends ConsumerWidget {
             isActive: isActive,
             onTap: () {
               if (!isActive) {
-                ref.read(selectedCategoryProvider.notifier).state = category;
-                ref
-                    .read(newsFeedProvider.notifier)
-                    .fetchNews(category: category);
+                ref.read(newsFeedProvider.notifier).changeCategory(category);
               }
             },
           );

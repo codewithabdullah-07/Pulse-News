@@ -14,11 +14,23 @@ class NewsServiceException implements Exception {
   String toString() => message;
 }
 
+class NewsBatch {
+  const NewsBatch({
+    required this.articles,
+    required this.nextPage,
+    required this.hasMore,
+  });
+
+  final List<ArticleModel> articles;
+  final int nextPage;
+  final bool hasMore;
+}
+
 class NewsService {
   static const String _baseUrl = 'https://newsapi.org/v2';
   static const int _pageSize = 20;
   static const int _timeoutSeconds = 15;
-  static const int _maxImageValidationAttempts = 3;
+  static const int _maxPagesPerBatch = 12;
 
   late final Dio _dio;
 
@@ -52,11 +64,19 @@ class NewsService {
     required NewsCategory category,
     int page = 1,
   }) async {
+    final batch = await fetchByCategoryBatch(category: category, page: page);
+    return batch.articles;
+  }
+
+  Future<NewsBatch> fetchByCategoryBatch({
+    required NewsCategory category,
+    int page = 1,
+  }) async {
     try {
       if (category == NewsCategory.pakistan) {
-        final pakistanArticles = await _fetchPakistanArticles(page: page);
-        if (pakistanArticles.isNotEmpty) {
-          return pakistanArticles;
+        final pakistanBatch = await _fetchPakistanArticles(page: page);
+        if (pakistanBatch.articles.isNotEmpty) {
+          return pakistanBatch;
         }
       }
 
@@ -78,7 +98,7 @@ class NewsService {
         }
       }
 
-      return _fetchValidatedArticles(
+      return _fetchValidatedBatch(
         endpoint: endpoint,
         baseQueryParameters: params,
         startPage: page,
@@ -94,12 +114,24 @@ class NewsService {
     required String query,
     int page = 1,
   }) async {
+    final batch = await searchArticlesBatch(query: query, page: page);
+    return batch.articles;
+  }
+
+  Future<NewsBatch> searchArticlesBatch({
+    required String query,
+    int page = 1,
+  }) async {
     if (query.trim().isEmpty) {
-      return [];
+      return const NewsBatch(
+        articles: [],
+        nextPage: 1,
+        hasMore: false,
+      );
     }
 
     try {
-      return _fetchValidatedArticles(
+      return _fetchValidatedBatch(
         endpoint: '/everything',
         baseQueryParameters: {
           'q': query.trim(),
@@ -120,8 +152,8 @@ class NewsService {
     return fetchByCategory(category: NewsCategory.topHeadlines);
   }
 
-  Future<List<ArticleModel>> _fetchPakistanArticles({required int page}) async {
-    final topHeadlines = await _fetchValidatedArticles(
+  Future<NewsBatch> _fetchPakistanArticles({required int page}) async {
+    final topHeadlines = await _fetchValidatedBatch(
       endpoint: '/top-headlines',
       baseQueryParameters: {
         'country': 'pk',
@@ -129,11 +161,11 @@ class NewsService {
       },
       startPage: page,
     );
-    if (topHeadlines.isNotEmpty) {
+    if (topHeadlines.articles.isNotEmpty) {
       return topHeadlines;
     }
 
-    return _fetchValidatedArticles(
+    return _fetchValidatedBatch(
       endpoint: '/everything',
       baseQueryParameters: {
         'q': 'Pakistan OR Karachi OR Lahore OR Islamabad',
@@ -165,30 +197,29 @@ class NewsService {
         .toList();
   }
 
-  Future<List<ArticleModel>> _fetchValidatedArticles({
+  Future<NewsBatch> _fetchValidatedBatch({
     required String endpoint,
     required Map<String, dynamic> baseQueryParameters,
     required int startPage,
   }) async {
     final collected = <ArticleModel>[];
     final seenUrls = <String>{};
+    var currentPage = startPage;
+    var hasMore = true;
 
-    for (var attempt = 0; attempt < _maxImageValidationAttempts; attempt++) {
-      final page = startPage + attempt;
+    for (var attempt = 0; attempt < _maxPagesPerBatch; attempt++) {
       final response = await _dio.get(
         endpoint,
         queryParameters: {
           ...baseQueryParameters,
           'pageSize': _pageSize,
-          'page': page,
+          'page': currentPage,
         },
       );
 
       final parsed = _parseArticles(response.data);
       if (parsed.isEmpty) {
-        if (attempt == 0) {
-          return [];
-        }
+        hasMore = false;
         break;
       }
 
@@ -200,12 +231,22 @@ class NewsService {
         }
         collected.add(article);
         if (collected.length >= _pageSize) {
-          return collected;
+          return NewsBatch(
+            articles: collected,
+            nextPage: currentPage + 1,
+            hasMore: true,
+          );
         }
       }
+
+      currentPage++;
     }
 
-    return collected;
+    return NewsBatch(
+      articles: collected,
+      nextPage: currentPage,
+      hasMore: hasMore,
+    );
   }
 
   Future<List<ArticleModel>> _filterLoadableArticles(

@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../l10n/app_localizations_ext.dart';
 import '../theme/app_theme.dart';
@@ -97,34 +96,29 @@ class _SplashScreenState extends State<SplashScreen>
                       builder: (_, __) => Transform.scale(
                         scale: 1 + (_pulseController.value * 0.12),
                         child: Container(
-                          width: 88,
-                          height: 88,
+                          width: 110,
+                          height: 110,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                AppColors.violet,
-                                AppColors.secondaryAccent
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(28),
+                            borderRadius: BorderRadius.circular(32),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.violet.withValues(alpha: 0.3),
-                                blurRadius: 24,
-                                offset: const Offset(0, 10),
+                                color: AppColors.secondaryAccent
+                                    .withValues(alpha: 0.18),
+                                blurRadius: 26,
+                                offset: const Offset(0, 12),
+                              ),
+                              BoxShadow(
+                                color: AppColors.violet.withValues(alpha: 0.16),
+                                blurRadius: 36,
+                                offset: const Offset(0, 16),
                               ),
                             ],
                           ),
-                          child: Center(
-                            child: Text(
-                              'P',
-                              style: GoogleFonts.playfairDisplay(
-                                fontSize: 42,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(32),
+                            child: Image.asset(
+                              'assets/images/app_icon.png',
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),

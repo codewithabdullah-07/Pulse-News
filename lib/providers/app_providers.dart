@@ -5,11 +5,23 @@ import '../models/article_model.dart';
 import '../models/category_model.dart';
 import '../services/bookmark_service.dart';
 import '../services/news_service.dart';
+import '../services/supabase_auth_service.dart';
+import '../services/supabase_bookmark_service.dart';
+import '../services/supabase_bootstrap.dart';
 
 final newsServiceProvider = Provider<NewsService>((ref) => NewsService());
 
 final bookmarkServiceProvider =
     Provider<BookmarkService>((ref) => BookmarkService());
+
+final supabaseConfiguredProvider =
+    Provider<bool>((ref) => SupabaseBootstrap.isConfigured);
+
+final supabaseAuthServiceProvider =
+    Provider<SupabaseAuthService>((ref) => SupabaseAuthService());
+
+final supabaseBookmarkServiceProvider =
+    Provider<SupabaseBookmarkService>((ref) => SupabaseBookmarkService());
 
 class ThemeNotifier extends StateNotifier<bool> {
   static const _prefsKey = 'isDarkMode';
@@ -69,6 +81,7 @@ class NewsFeedState {
   final String? errorMessage;
   final int currentPage;
   final bool hasMore;
+  final int recycleCursor;
 
   const NewsFeedState({
     this.articles = const [],
@@ -77,6 +90,7 @@ class NewsFeedState {
     this.errorMessage,
     this.currentPage = 1,
     this.hasMore = true,
+    this.recycleCursor = 0,
   });
 
   NewsFeedState copyWith({
@@ -86,6 +100,7 @@ class NewsFeedState {
     String? errorMessage,
     int? currentPage,
     bool? hasMore,
+    int? recycleCursor,
     bool clearError = false,
   }) {
     return NewsFeedState(
@@ -95,6 +110,7 @@ class NewsFeedState {
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       currentPage: currentPage ?? this.currentPage,
       hasMore: hasMore ?? this.hasMore,
+      recycleCursor: recycleCursor ?? this.recycleCursor,
     );
   }
 }
@@ -112,26 +128,42 @@ class NewsFeedNotifier extends StateNotifier<NewsFeedState> {
     fetchNews();
   }
 
+  Future<void> changeCategory(NewsCategory category) async {
+    _ref.read(selectedCategoryProvider.notifier).state = category;
+    state = const NewsFeedState(isLoading: true);
+    await fetchNews(category: category);
+  }
+
   Future<void> fetchNews({
     NewsCategory? category,
     bool silent = false,
   }) async {
     final NewsCategory cat = category ?? _ref.read(selectedCategoryProvider);
-    state = state.copyWith(
-      isLoading: !silent,
-      clearError: true,
-    );
+    if (silent) {
+      state = state.copyWith(
+        isLoading: false,
+        clearError: true,
+      );
+    } else if (state.articles.isEmpty) {
+      state = const NewsFeedState(isLoading: true);
+    } else {
+      state = state.copyWith(
+        isLoading: true,
+        clearError: true,
+      );
+    }
 
     try {
-      final articles = await _newsService.fetchByCategory(
+      final batch = await _newsService.fetchByCategoryBatch(
         category: cat,
         page: 1,
       );
       state = NewsFeedState(
-        articles: articles,
+        articles: batch.articles,
         isLoading: false,
-        currentPage: 1,
-        hasMore: articles.length >= 20,
+        currentPage: batch.nextPage,
+        hasMore: batch.hasMore,
+        recycleCursor: 0,
       );
     } catch (e) {
       state = state.copyWith(
@@ -147,24 +179,61 @@ class NewsFeedNotifier extends StateNotifier<NewsFeedState> {
     }
 
     final cat = _ref.read(selectedCategoryProvider);
-    final nextPage = state.currentPage + 1;
+    final requestPage = state.currentPage;
 
     state = state.copyWith(isLoadingMore: true);
 
     try {
-      final more = await _newsService.fetchByCategory(
+      final batch = await _newsService.fetchByCategoryBatch(
         category: cat,
-        page: nextPage,
+        page: requestPage,
       );
+      final existingUrls = state.articles.map((article) => article.url).toSet();
+      final uniqueMore = batch.articles
+          .where((article) => !existingUrls.contains(article.url))
+          .toList();
+
+      if (uniqueMore.isEmpty && !batch.hasMore && state.articles.isNotEmpty) {
+        final recycled = _buildRecycleChunk(
+          source: state.articles,
+          startIndex: state.recycleCursor,
+        );
+
+        state = state.copyWith(
+          articles: [...state.articles, ...recycled],
+          isLoadingMore: false,
+          currentPage: 1,
+          hasMore: true,
+          recycleCursor:
+              (state.recycleCursor + recycled.length) % state.articles.length,
+        );
+        return;
+      }
+
       state = state.copyWith(
-        articles: [...state.articles, ...more],
+        articles: [...state.articles, ...uniqueMore],
         isLoadingMore: false,
-        currentPage: nextPage,
-        hasMore: more.length >= 20,
+        currentPage: batch.nextPage,
+        hasMore: batch.hasMore || batch.articles.isNotEmpty,
       );
     } catch (_) {
       state = state.copyWith(isLoadingMore: false);
     }
+  }
+
+  List<ArticleModel> _buildRecycleChunk({
+    required List<ArticleModel> source,
+    required int startIndex,
+  }) {
+    if (source.isEmpty) {
+      return const [];
+    }
+
+    final chunkSize = source.length >= 20 ? 20 : source.length;
+    return List<ArticleModel>.generate(
+      chunkSize,
+      (index) => source[(startIndex + index) % source.length],
+    );
   }
 }
 
@@ -172,13 +241,6 @@ final newsFeedProvider =
     StateNotifierProvider<NewsFeedNotifier, NewsFeedState>((ref) {
   final service = ref.watch(newsServiceProvider);
   return NewsFeedNotifier(service, ref);
-});
-
-final categoryWatcherProvider = Provider<void>((ref) {
-  final category = ref.watch(selectedCategoryProvider);
-  Future.microtask(() {
-    ref.read(newsFeedProvider.notifier).fetchNews(category: category);
-  });
 });
 
 class SearchState {
@@ -246,9 +308,9 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
   final Set<String> _dismissedUrls = <String>{};
   bool _isRefreshing = false;
 
-  Future<void> refresh() async {
+  Future<List<ArticleModel>> refresh() async {
     if (_isRefreshing) {
-      return;
+      return const [];
     }
 
     _isRefreshing = true;
@@ -268,7 +330,7 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
           inboxArticles: latestArticles,
           hasSeeded: true,
         );
-        return;
+        return latestArticles;
       }
 
       final newArticles = latestArticles
@@ -283,6 +345,7 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
             : _mergeArticles(newArticles, state.unreadArticles),
         inboxArticles: _mergeArticles(latestArticles, state.inboxArticles),
       );
+      return newArticles;
     } finally {
       _isRefreshing = false;
     }
@@ -320,6 +383,13 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
     );
   }
 
+  void clearVisible() {
+    state = state.copyWith(
+      unreadArticles: const [],
+      inboxArticles: const [],
+    );
+  }
+
   List<ArticleModel> _mergeArticles(
     List<ArticleModel> primary,
     List<ArticleModel> secondary,
@@ -349,30 +419,66 @@ final notificationsProvider =
 });
 
 class BookmarkNotifier extends StateNotifier<List<ArticleModel>> {
-  BookmarkNotifier(this._service) : super([]) {
+  BookmarkNotifier(this._service, this._supabaseService) : super([]) {
     _load();
   }
 
   final BookmarkService _service;
+  final SupabaseBookmarkService _supabaseService;
 
   void _load() {
     state = _service.getAllBookmarks();
   }
 
+  Future<void> syncFromRemote() async {
+    if (!_supabaseService.isReady) {
+      return;
+    }
+
+    final remoteBookmarks = await _supabaseService.fetchBookmarks();
+    if (remoteBookmarks.isEmpty) {
+      return;
+    }
+
+    for (final article in remoteBookmarks) {
+      if (!_service.isBookmarked(article.url)) {
+        await _service.saveArticle(article);
+      }
+    }
+    state = _service.getAllBookmarks();
+  }
+
+  Future<void> syncLocalToRemote() async {
+    await _supabaseService.syncLocalBookmarks(state);
+  }
+
   Future<void> toggle(ArticleModel article) async {
+    final wasBookmarked = _service.isBookmarked(article.url);
     await _service.toggleBookmark(article);
+    if (wasBookmarked) {
+      await _supabaseService.removeBookmark(article.url);
+    } else {
+      await _supabaseService.upsertBookmark(article);
+    }
     state = _service.getAllBookmarks();
   }
 
   bool isBookmarked(String? url) => _service.isBookmarked(url);
 
   Future<void> clearAll() async {
+    final bookmarks = state;
     await _service.clearAll();
+    for (final article in bookmarks) {
+      await _supabaseService.removeBookmark(article.url);
+    }
     state = [];
   }
 }
 
 final bookmarkProvider =
     StateNotifierProvider<BookmarkNotifier, List<ArticleModel>>((ref) {
-  return BookmarkNotifier(ref.watch(bookmarkServiceProvider));
+  return BookmarkNotifier(
+    ref.watch(bookmarkServiceProvider),
+    ref.watch(supabaseBookmarkServiceProvider),
+  );
 });
