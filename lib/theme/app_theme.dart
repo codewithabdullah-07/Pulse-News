@@ -5,28 +5,34 @@ import 'package:google_fonts/google_fonts.dart';
 class AppColors {
   static const Color primary = Color(0xFF1A1A2E);
   static const Color primaryAlt = Color(0xFF0D0D1A);
-  static const Color accent = Color(0xFF5C6BC0);
-  static const Color violet = Color(0xFF7C4DFF);
-  static const Color secondaryAccent = Color(0xFF00BFA5);
+  static const Color accent = Color(0xFF2A6E6E);        // Deep Teal
+  static const Color violet = Color(0xFF3D8C8C);        // Teal mid
+  static const Color secondaryAccent = Color(0xFFC5874A); // Warm Amber
   static const Color error = Color(0xFFEF5350);
+
   static const Color surfaceLight = Color(0xFFFFFFFF);
-  static const Color surfaceDark = Color(0xFF1E1E2E);
+  static const Color surfaceDark = Color(0xFF1C2330);   // Deep Navy
+
   static const Color cardLight = Color(0xFFF8F9FF);
-  static const Color cardDark = Color(0xFF252535);
+  static const Color cardDark = Color(0xFF232D3F);      // Slate Card
+
   static const Color pageLight = Color(0xFFF2F4FB);
-  static const Color pageDark = Color(0xFF10111A);
+  static const Color pageDark = Color(0xFF141920);      // Near-Black Navy
+
   static const Color borderLight = Color(0xFFDDE2F2);
-  static const Color borderDark = Color(0xFF34374A);
+  static const Color borderDark = Color(0xFF2C3850);    // Muted Slate
+
   static const Color textLight = Color(0xFF151524);
-  static const Color textDark = Color(0xFFF3F4FF);
+  static const Color textDark = Color(0xFFEEF0F6);      // Soft White
+
   static const Color mutedLight = Color(0xFF6A6F85);
-  static const Color mutedDark = Color(0xFFB6B7C7);
+  static const Color mutedDark = Color(0xFF7C8394);     // Cool Gray
+
   static const Color shimmerBase = Color(0xFFE7EAF8);
   static const Color shimmerHighlight = Color(0xFFF9FAFF);
-  static const Color shimmerBaseDark = Color(0xFF313348);
-  static const Color shimmerHighlightDark = Color(0xFF3C3F56);
+  static const Color shimmerBaseDark = Color(0xFF2A3545);
+  static const Color shimmerHighlightDark = Color(0xFF35435A);
 }
-
 class AppTheme {
   static ThemeData get lightTheme => _buildTheme(Brightness.light);
   static ThemeData get darkTheme => _buildTheme(Brightness.dark);
